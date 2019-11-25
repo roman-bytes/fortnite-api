@@ -17,6 +17,7 @@ const IndexPage = () => {
         .get("https://api.fortnitetracker.com/v1/profile/pc/hagoona_matata", {
           headers: {
             "TRN-Api-Key": `${process.env.FORTNITE_API_KEY}`,
+            "Access-Control-Allow-Origin": "*",
           },
         })
         .then(res => {
