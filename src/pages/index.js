@@ -1,21 +1,34 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
+import axios from "axios"
 import { Link } from "gatsby"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
-  </Layout>
-)
+const IndexPage = () => {
+  const [playerStats, setPlayerStats] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  const getDate = () => {}
+
+  useEffect(() => {
+    if (loading && playerStats.length === 0) {
+      axios("https://api.fortnitetracker.com/v1/profile/pc/hagoona_matata", {
+        headers: {
+          "TRN-Api-Key": process.env.FORTNITE_API_KEY,
+        },
+      }).then(res => {
+        console.log("res", res)
+        setLoading(false)
+      })
+    }
+  })
+
+  return (
+    <Layout>
+      <SEO title="Home" />
+    </Layout>
+  )
+}
 
 export default IndexPage
