@@ -13,17 +13,17 @@ const IndexPage = () => {
 
   useEffect(() => {
     if (loading && playerStats.length === 0) {
-      axios
-        .get("https://api.fortnitetracker.com/v1/profile/pc/hagoona_matata", {
-          headers: {
-            "TRN-Api-Key": `${process.env.FORTNITE_API_KEY}`,
-            "Access-Control-Allow-Origin": "*",
-          },
-        })
-        .then(res => {
-          console.log("res", res)
-          setLoading(false)
-        })
+      // axios
+      //   .get("https://api.fortnitetracker.com/v1/profile/pc/hagoona_matata", {
+      //     headers: {
+      //       "TRN-Api-Key": `${process.env.FORTNITE_API_KEY}`,
+      //       "Access-Control-Allow-Origin": "*",
+      //     },
+      //   })
+      //   .then(res => {
+      //     console.log("res", res)
+      //     setLoading(false)
+      //   })
     }
   })
 
