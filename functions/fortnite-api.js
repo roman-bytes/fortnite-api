@@ -9,9 +9,11 @@ exports.handler = function(event, context, callback) {
       },
     })
     .then(res => {
+      console.log("res", res.data)
+
       callback(null, {
         statusCode: 200,
-        body: res.json(),
+        body: JSON.stringify(res.data),
       })
     })
     .catch(err => {
