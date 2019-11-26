@@ -1,37 +1,60 @@
-import React, { useState, useEffect } from "react"
-import axios from "axios"
-import { Link } from "gatsby"
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import Layout from "../components/layout";
+import SEO from "../components/seo";
+import Match from "../components/match";
 
 const IndexPage = () => {
-  const [playerStats, setPlayerStats] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [playerStats, setPlayerStats] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  const getDate = () => {}
+  const getPlayer = async () => {
+    try {
+      const response = await axios.get("/.netlify/functions/fortnite-api", {
+        params: {
+          player: "hagoona_matata",
+        },
+      });
+      const data = await response.data;
+      console.log("DATA", data);
 
-  useEffect(() => {
-    if (loading && playerStats.length === 0) {
-      // axios
-      //   .get("https://api.fortnitetracker.com/v1/profile/pc/hagoona_matata", {
-      //     headers: {
-      //       "TRN-Api-Key": `${process.env.FORTNITE_API_KEY}`,
-      //       "Access-Control-Allow-Origin": "*",
-      //     },
-      //   })
-      //   .then(res => {
-      //     console.log("res", res)
-      //     setLoading(false)
-      //   })
+      setPlayerStats([...data]);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
     }
-  })
+  };
+
+  console.log("playerStats", playerStats);
+
+  const matches = playerStats.map(match => (
+    <Match
+      key={match.id}
+      date={match.dateCollected}
+      playlist={match.playlist}
+      kills={match.kills}
+      matchCount={match.matches}
+    />
+  ));
 
   return (
     <Layout>
       <SEO title="Home" />
-    </Layout>
-  )
-}
 
-export default IndexPage
+      <button
+        type="button"
+        onClick={() => {
+          setLoading(true);
+          getPlayer();
+        }}
+      >
+        Get Player Info
+      </button>
+      {loading && <h3>Loading......</h3>}
+      {playerStats.length ? matches : null}
+    </Layout>
+  );
+};
+
+export default IndexPage;
